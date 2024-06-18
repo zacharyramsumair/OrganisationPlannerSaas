@@ -1,0 +1,51 @@
+/* components/TimePicker.module.css */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Adjust columns as needed */
+    gap: 10px;
+    padding: 10px;
+}
+
+.block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+    background-color: #f0f0f0;
+}
+
+.block:hover:not(.highlighted):not(.start):not(.faded):not(.occupied):not(.mixed) {
+    background-color: #e0e0e0;
+}
+
+.start {
+    background-color: #90ee90;
+    /* Start time color */
+}
+
+.highlighted {
+    background-color: #90ee90;
+    /* Highlight color */
+}
+
+.faded {
+    background-color: #d3f5d3;
+    /* Faded color for potential end time */
+}
+
+.occupied {
+    background-color: #ffa07a;
+    /* Faded orange color for occupied time */
+    /* background-colo#ffa07a07a; Faded orange color for occupied time */
+    background-color: red
+}
+
+.mixed {
+    background-color: #98fb98;
+    background-color: purple;
+    /* Mixed color for occupied time included in selected range */
+}
