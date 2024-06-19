@@ -42,13 +42,13 @@ function Calendar({
       );
       if (events.length > 0) {
         setSelectedEvents(events); // Update the state with the events for the selected date
-        events.forEach((event) => {
-          console.log("Event:", event.title, "Date:", event.date);
-          toast({
-            title: event.title,
-            description: event.date.toDateString(),
-          });
-        });
+        // events.forEach((event) => {
+        //   console.log("Event:", event.title, "Date:", event.date);
+        //   toast({
+        //     title: event.title,
+        //     description: event.date.toDateString(),
+        //   });
+        // });
       }
     };
 
