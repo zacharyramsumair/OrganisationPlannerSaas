@@ -14,10 +14,9 @@ const generateTimeIntervals = () => {
   return intervals;
 };
 
- const TimePicker = ({ occupiedTimes }) => {
+ const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTime }:any) => {
   const intervals = generateTimeIntervals();
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  
   const [hoveredTime, setHoveredTime] = useState(null);
   const [customOccupiedSlots, setCustomOccupiedSlots] = useState([]);
 
@@ -29,7 +28,7 @@ const generateTimeIntervals = () => {
     }
   }, [occupiedTimes]);
 
-  const handleTimeClick = (time) => {
+  const handleTimeClick = (time:any) => {
     if (!startTime || (startTime && endTime)) {
       setStartTime(time);
       setEndTime(null);
@@ -44,7 +43,7 @@ const generateTimeIntervals = () => {
     }
   };
 
-  const handleTimeMouseEnter = (time) => {
+  const handleTimeMouseEnter = (time:any) => {
     if (startTime && !endTime) {
       setHoveredTime(time);
     }
@@ -54,21 +53,21 @@ const generateTimeIntervals = () => {
     setHoveredTime(null);
   };
 
-  const isHighlighted = (time) => {
+  const isHighlighted = (time:any) => {
     if (startTime && endTime) {
       return time >= startTime && time <= endTime;
     }
     return false;
   };
 
-  const isFaded = (time) => {
+  const isFaded = (time:any) => {
     if (startTime && !endTime && hoveredTime) {
       return time >= startTime && time <= hoveredTime;
     }
     return false;
   };
 
-  const isMixed = (time) => {
+  const isMixed = (time:any) => {
     if (customOccupiedSlots.length > 0 && (startTime && endTime)) {
       return time >= startTime && time <= endTime && customOccupiedSlots.includes(time);
     }
@@ -82,9 +81,9 @@ const generateTimeIntervals = () => {
     console.log("Duration:", duration, "minutes");
   };
 
-  const calculateOccupiedSlots = (occupiedTimes) => {
-    const slots = [];
-    occupiedTimes.forEach(({ startTime, endTime }) => {
+  const calculateOccupiedSlots = (time:any) => {
+    const slots:any[] = [];
+    occupiedTimes.forEach(({ startTime, endTime } : any) => {
       const startHour = parseInt(startTime.split(':')[0]);
       const startMinute = parseInt(startTime.split(':')[1]);
       const endHour = parseInt(endTime.split(':')[0]);
@@ -93,7 +92,7 @@ const generateTimeIntervals = () => {
         for (let minute = 0; minute < 60; minute += 15) {
           const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
           if ((hour === startHour && minute >= startMinute) || (hour > startHour && hour < endHour) || (hour === endHour && minute <= endMinute)) {
-            slots.push(time);
+          slots.push(time);
           }
         }
       }
@@ -127,7 +126,7 @@ const generateTimeIntervals = () => {
         </div>
       ))}
 
-      <Button onClick={submitInfo}>Submit</Button>
+      {/* <Button onClick={submitInfo}>Submit</Button> */}
     </div>
   );
 };
