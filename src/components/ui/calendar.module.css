@@ -1,0 +1,7 @@
+/* Customizing tooltip background */
+.react-tooltip {
+    background-color: pink; /* Adjust the last value (0.9) to change opacity */
+    /* Add any other styles you want */
+  }
+
+ 

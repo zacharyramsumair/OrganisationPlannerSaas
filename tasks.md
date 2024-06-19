@@ -4,6 +4,7 @@
 • create user
 • create organisations linked to user, link to parent organisation (parent organisation code) , to be approved by parent organisation
 • let organisations only create events and have it linked to them
+• let us user follow an organisation or search or search by code
 • make calendars for individual organisations
 • link organisations through parent organisations
 • view calendars for parent organisation, their events and their childrens events

@@ -4,6 +4,7 @@ const organisationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String },
+  joinCode: { type: String },
   organisationMainUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" } ,
   parentOrganisation: { type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ,
   childrenOrganisations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ]
