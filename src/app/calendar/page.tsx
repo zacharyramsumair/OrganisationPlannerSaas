@@ -1,6 +1,6 @@
-"use client"
+
+import { ShowCalendar } from '@/components/ui/showCalendar'
 import React from 'react'
-import {Calendar} from '@/components/ui/calendar';
 
 type Props = {}
 
@@ -17,7 +17,7 @@ const page = (props: Props) => {
     //     console.log(`we have X event on ${date}`)
     //   }
   return (
-    <div><Calendar/></div>
+    <div><ShowCalendar/></div>
   )
 }
 

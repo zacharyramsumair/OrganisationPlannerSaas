@@ -1,6 +1,7 @@
-• Create event form
+• Create event form (done)
 • add event to database (done)
-• display events on calendar
+• display events on calendar (done)
+• load event from database based on the year , first seed with some sample data
 • create user
 • create organisations linked to user, link to parent organisation (parent organisation code) , to be approved by parent organisation
 • let organisations only create events and have it linked to them
