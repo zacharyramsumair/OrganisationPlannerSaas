@@ -1,11 +1,15 @@
 • Create event form (done)
 • add event to database (done)
 • display events on calendar (done)
-• load event from database based on the year , first seed with some sample data
-• create user
-• create organisations linked to user, link to parent organisation (parent organisation code) , to be approved by parent organisation
+• load event from database based on the year , first seed with some sample data (done)
+• create list view of calendar (done)
+• create user (done)
+• create organisations linked to user (done)
+• redirects for forms
+• only allow a user to make one organisation 
+• link to parent organisation (parent organisation code) , to be approved by parent organisation
 • let organisations only create events and have it linked to them
-• let us user follow an organisation or search or search by code
+• search for organisations
 • make calendars for individual organisations
 • link organisations through parent organisations
 • view calendars for parent organisation, their events and their childrens events

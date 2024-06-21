@@ -20,14 +20,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createEvent } from "@/action/event";
+import { createOrganisation } from "@/action/organisation";
 
 type Props = {};
 
 const FormSchema = z.object({
-	title: z
+	name: z
 		.string()
 		.min(2, {
-			message: "Title must be at least 2 characters.",
+			message: "Name must be at least 2 characters.",
 		})
 		.max(100, {
 			message: "Title must be max 100 characters.",
@@ -35,44 +36,41 @@ const FormSchema = z.object({
 	description: z.string().max(500, {
 		message: "Description must be max 500 characters.",
 	}),
-	location: z
+	email: z
 		.string()
-		.max(75, {
-			message: "Location must be max 50 characters.",
+		.max(500, {
+			message: "Email must be max 500 characters.",
 		}),
-	host: z
+	contactNumber: z
 		.string()
-		.min(2, {
-			message: "Host must be at least 2 characters.",
-		})
-		.max(100, {
-			message: "Host must be max 50 characters.",
+		.max(20, {
+			message: "Contact Number must be max 20 characters.",
 		}),
+	
 });
 
-const EventForm = (props: Props) => {
-	const [startTime, setStartTime] = useState(null);
-	const [endTime, setEndTime] = useState(null);
-	const [date, setDate] = useState(null);
+const OrganisationForm = (props: Props) => {
+
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			title: "",
+			name: "",
 			description: "",
-			location: "",
-			host: "",
+			email: "",
+			contactNumber: "",
 		},
 	});
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
-		if (date == null || startTime == null || endTime == null) {
+		if (data.name =="") {
 			toast({
 				title: "Missing Values",
-                description: "Please select a date, start and end time"
+                description: "Please include a Name for your Organisation"
 			});
 		} else {
-			let formData = { ...data, date, startTime, endTime};
+
+			let formData = {...data, organisationMainUser: "6674dcdf134f92c98a29575f"}
 
 			toast({
 				title: "You submitted the following values:",
@@ -85,20 +83,18 @@ const EventForm = (props: Props) => {
 				),
 			});
 
-			await createEvent(formData)
+			await createOrganisation(formData)
+			
 
 		}
 	}
 
-	let occupied = [
-		{ startTime: "01:45", endTime: "04:00" },
-		{ startTime: "11:45", endTime: "14:00" },
-	];
+	
 
 	return (
 		<div className="flex items-center justify-center">
 			<div className="w-full max-w-xl p-8 bg-white shadow-md rounded-lg">
-				<h1 className="text-2xl font-bold mb-6 text-center">Create Event</h1>
+				<h1 className="text-2xl font-bold mb-6 text-center">Create Organisation</h1>
 
 				<Form {...form}>
 					<form
@@ -107,12 +103,12 @@ const EventForm = (props: Props) => {
 					>
 						<FormField
 							control={form.control}
-							name="title"
+							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Title <span className="text-red-500">*</span></FormLabel>
+									<FormLabel>Name <span className="text-red-500">*</span></FormLabel>
 									<FormControl>
-										<Input placeholder="General Meeting" {...field} />
+										<Input placeholder="Leadership Counsil" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -126,7 +122,7 @@ const EventForm = (props: Props) => {
 								<FormItem>
 									<FormLabel>Description</FormLabel>
 									<FormControl>
-										<Input placeholder="Small Description of your event" {...field} />
+										<Input placeholder="Small Description of your organisation" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -135,12 +131,12 @@ const EventForm = (props: Props) => {
 
 						<FormField
 							control={form.control}
-							name="location"
+							name="email"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Location</FormLabel>
+									<FormLabel>Email</FormLabel>
 									<FormControl>
-										<Input placeholder="e.g. Amphitheatre" {...field} />
+										<Input placeholder="leadership@gmail.com" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -149,29 +145,17 @@ const EventForm = (props: Props) => {
 
 						<FormField
 							control={form.control}
-							name="host"
+							name="contactNumber"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Host <span className="text-red-500">*</span></FormLabel>
+									<FormLabel>Contact Number</FormLabel>
 									<FormControl>
-										<Input placeholder="You" {...field} />
+										<Input placeholder="868-123-4567" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
-						<div>
-							<FormLabel>Date <span className="text-red-500">*</span></FormLabel>
-							<div>
-
-							<DatePicker date={date} setDate={setDate} />
-							</div>
-							
-						</div>
-						<div>
-							<FormLabel>Start Time and End Time <span className="text-red-500">*</span></FormLabel>
-							<TimePicker occupiedTimes={occupied} startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime} />
-						</div>
 
 						<Button type="submit" className="w-full">Submit</Button>
 					</form>
@@ -181,4 +165,4 @@ const EventForm = (props: Props) => {
 	);
 };
 
-export default EventForm;
+export default OrganisationForm;

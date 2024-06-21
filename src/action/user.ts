@@ -1,7 +1,7 @@
 "use server";
 
 import connectMongoDB from "@/lib/mongodb";
-import { User } from "@/models/User";
+import { User } from "@/models/user";
 import { redirect } from "next/navigation";
 // import { hash } from "bcryptjs";
 // import { CredentialsSignin } from "next-auth";

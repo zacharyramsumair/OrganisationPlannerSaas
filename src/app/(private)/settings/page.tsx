@@ -1,6 +1,6 @@
 import { fetchAllUsers, getCurrentUser } from "@/action/user";
 import { getSession } from "@/lib/getSession";
-import { User } from "@/models/User";
+import { User } from "@/models/user";
 import { redirect } from "next/navigation";
 
 const Settings = async () => {

@@ -3,8 +3,9 @@ import NextAuth, { CredentialsSignin } from "next-auth";
 // import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 // import connectMongoDB from "./lib/db";
-import { User } from "./models/User";
 import connectMongoDB from "./lib/mongodb";
+import { redirect } from "next/navigation";
+import { User } from "./models/user";
 // import { compare } from "bcryptjs";
 
 
@@ -53,6 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               return true;
             } else {
               return true;
+
           }
         } catch (error:any) {
             console.log(error.message)
