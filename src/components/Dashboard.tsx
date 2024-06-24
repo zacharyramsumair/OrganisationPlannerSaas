@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/action/user";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getAllEventsForOrganisation } from "@/action/event";
+import { DeleteEventDialog } from "./DeleteEventDialog";
 
 type Props = {
 	organisationInformation: any;
@@ -70,9 +71,13 @@ const Dashboard = async (props: Props) => {
 														{eve.startTime} to {eve.endTime}
 													</p>
 												</div>
+												<div className="gap-5">
+
 												<Link href={`/editEvent/${eve._id}`}>
 													<Button>Edit</Button>
 												</Link>
+												<DeleteEventDialog eventId={eve._id}/>
+												</div>
 											</li>
 										)
 									)}

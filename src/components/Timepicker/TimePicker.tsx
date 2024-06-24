@@ -89,21 +89,26 @@ const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTim
   const calculateOccupiedSlots = (occupiedTimes) => {
     const slots = [];
     occupiedTimes.forEach(({ startTime, endTime }) => {
-      const startHour = parseInt(startTime.split(':')[0]);
-      const startMinute = parseInt(startTime.split(':')[1]);
-      const endHour = parseInt(endTime.split(':')[0]);
-      const endMinute = parseInt(endTime.split(':')[1]);
-      for (let hour = startHour; hour <= endHour; hour++) {
-        for (let minute = 0; minute < 60; minute += 15) {
-          const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-          if ((hour === startHour && minute >= startMinute) || (hour > startHour && hour < endHour) || (hour === endHour && minute <= endMinute)) {
-            slots.push(time);
-          }
+        if (startTime && endTime) { // Add a check to ensure startTime and endTime are not null
+            const startHour = parseInt(startTime.split(':')[0]);
+            const startMinute = parseInt(startTime.split(':')[1]);
+            const endHour = parseInt(endTime.split(':')[0]);
+            const endMinute = parseInt(endTime.split(':')[1]);
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    if ((hour === startHour && minute >= startMinute) || 
+                        (hour > startHour && hour < endHour) || 
+                        (hour === endHour && minute <= endMinute)) {
+                        slots.push(time);
+                    }
+                }
+            }
         }
-      }
     });
     return slots;
-  };
+};
+
 
   const calculateDuration = () => {
     if (startTime && endTime) {

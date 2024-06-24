@@ -62,16 +62,30 @@ const EventForm = (props: Props) => {
         }
     }, [date]);
 
-    const fetchOccupiedTimes = async (selectedDate) => {
+    const fetchOccupiedTimes = async (selectedDate:any) => {
         try {
-            const events = await getAllEventsForSpecificDate(selectedDate);
-            const occupiedTimes = events.map(event => ({
+            let events = await getAllEventsForSpecificDate(selectedDate);
+            console.log(events);
+    
+            // Always setOccupied, even if events is an empty array
+            let occupiedTimes:any = events.map(event => ({
                 startTime: event.startTime,
                 endTime: event.endTime
             }));
+
+
+            if(events.length == 0){
+                occupiedTimes = [{
+                    startTime: null,
+                endTime: null
+                }]
+            }
+
             setOccupied(occupiedTimes);
         } catch (error) {
             console.error("Error fetching events for date:", error);
+            // Ensure occupied is cleared in case of an error
+            setOccupied([]);
         }
     };
 

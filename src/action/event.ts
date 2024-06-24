@@ -75,4 +75,108 @@ const getAllEventsForOrganisation = async (organisationId:any) => {
   return JSON.parse(JSON.stringify(events));
 };
 
-export { createEvent, getAllEventsForTheYear, getAllEventsForSpecificDate,getAllEventsForOrganisation };
+
+const getEventById = async (eventId:any) => {
+  try {
+    console.log("problem 1")
+    // Connect to the MongoDB database
+    await connectMongoDB();
+
+    console.log("problem 2")
+
+
+    // Find the event by its ID
+    const event = await Event.findById(eventId).lean();
+    console.log("problem 3")
+
+
+    // If event is not found, throw an error
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+    // Return the found event
+    return JSON.parse(JSON.stringify(event));
+  } catch (error:any) {
+    // Log and throw any errors that occur
+    console.error("Error while fetching event by ID:", error.message);
+    throw new Error("Error while fetching event");
+  }
+};
+
+const editEvent = async (eventId:any, formData:any) => {
+  try {
+    // Connect to the MongoDB database
+    await connectMongoDB();
+
+    // Find the event by its ID
+    let event = await Event.findById(eventId);
+
+    // If event is not found, throw an error
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+    // Update event properties with the formData
+    event.title = formData.title;
+    event.description = formData.description;
+    event.image = formData.image;
+    event.date = formData.date;
+    event.startTime = formData.startTime;
+    event.endTime = formData.endTime;
+    event.location = formData.location;
+
+    // Save the updated event
+    await event.save();
+
+    // Return the updated event
+    return event.toJSON();
+  } catch (error:any) {
+    // Log and throw any errors that occur
+    console.error("Error while editing event:", error.message);
+    throw new Error("Error while editing event");
+  }
+};
+
+const deleteEvent = async (eventId: any) => {
+  try {
+    // Connect to the MongoDB database
+    await connectMongoDB();
+
+    console.log("here 1")
+
+    // Find the event by its ID
+    const event = await Event.findById(eventId);
+
+    console.log("here 2")
+
+
+    // If event is not found, throw an error
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+
+    // Find the related organisation
+    const organisation = await Organisation.findById(event.organisation);
+
+
+    if (organisation) {
+      // Remove the event reference from the organisation's events array
+      
+      organisation.events.pull(eventId);
+      await organisation.save();
+    }
+    
+    // Remove the event from the database
+    await Event.deleteOne({ _id:eventId });;
+    
+    return { message: "Event deleted successfully" };
+  } catch (error: any) {
+    // Log and throw any errors that occur
+    console.error("Error while deleting event:", error.message);
+    throw new Error("Error while deleting event");
+  }
+};
+
+export { createEvent, getAllEventsForTheYear, getAllEventsForSpecificDate, getAllEventsForOrganisation, getEventById, editEvent, deleteEvent };
