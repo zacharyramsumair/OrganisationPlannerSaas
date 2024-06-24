@@ -10,7 +10,7 @@ import {
 import { getSession } from "@/lib/getSession";
 import { redirect } from "next/navigation";
 
-const Dashboard = async () => {
+const ExampleDashboard = async () => {
   const session = await getSession();
   const user = session?.user;
   if (!user) return redirect("/");
@@ -138,4 +138,4 @@ const Dashboard = async () => {
   );
 };
 
-export default Dashboard;
+export default ExampleDashboard;

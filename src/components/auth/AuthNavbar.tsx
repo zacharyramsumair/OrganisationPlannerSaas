@@ -32,7 +32,7 @@ const AuthNavbar = async () => {
         ) : (
           <>
             <li className="mt-2">
-              <Link href="/(private)/dashboard" className="hover:text-gray-400">
+              <Link href="/dashboard" className="hover:text-gray-400">
                 Dashboard
               </Link>
             </li>

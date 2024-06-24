@@ -1,4 +1,3 @@
-
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
@@ -14,7 +13,7 @@ const generateTimeIntervals = () => {
   return intervals;
 };
 
- const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTime }:any) => {
+const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTime, disabled }) => {
   const intervals = generateTimeIntervals();
   
   const [hoveredTime, setHoveredTime] = useState(null);
@@ -28,7 +27,9 @@ const generateTimeIntervals = () => {
     }
   }, [occupiedTimes]);
 
-  const handleTimeClick = (time:any) => {
+  const handleTimeClick = (time) => {
+    if (disabled) return; // Prevent click actions if disabled
+
     if (!startTime || (startTime && endTime)) {
       setStartTime(time);
       setEndTime(null);
@@ -43,31 +44,35 @@ const generateTimeIntervals = () => {
     }
   };
 
-  const handleTimeMouseEnter = (time:any) => {
+  const handleTimeMouseEnter = (time) => {
+    if (disabled) return; // Prevent hover actions if disabled
+
     if (startTime && !endTime) {
       setHoveredTime(time);
     }
   };
 
   const handleTimeMouseLeave = () => {
+    if (disabled) return; // Prevent hover actions if disabled
+
     setHoveredTime(null);
   };
 
-  const isHighlighted = (time:any) => {
+  const isHighlighted = (time) => {
     if (startTime && endTime) {
       return time >= startTime && time <= endTime;
     }
     return false;
   };
 
-  const isFaded = (time:any) => {
+  const isFaded = (time) => {
     if (startTime && !endTime && hoveredTime) {
       return time >= startTime && time <= hoveredTime;
     }
     return false;
   };
 
-  const isMixed = (time:any) => {
+  const isMixed = (time) => {
     if (customOccupiedSlots.length > 0 && (startTime && endTime)) {
       return time >= startTime && time <= endTime && customOccupiedSlots.includes(time);
     }
@@ -81,9 +86,9 @@ const generateTimeIntervals = () => {
     console.log("Duration:", duration, "minutes");
   };
 
-  const calculateOccupiedSlots = (time:any) => {
-    const slots:any[] = [];
-    occupiedTimes.forEach(({ startTime, endTime } : any) => {
+  const calculateOccupiedSlots = (occupiedTimes) => {
+    const slots = [];
+    occupiedTimes.forEach(({ startTime, endTime }) => {
       const startHour = parseInt(startTime.split(':')[0]);
       const startMinute = parseInt(startTime.split(':')[1]);
       const endHour = parseInt(endTime.split(':')[0]);
@@ -92,7 +97,7 @@ const generateTimeIntervals = () => {
         for (let minute = 0; minute < 60; minute += 15) {
           const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
           if ((hour === startHour && minute >= startMinute) || (hour > startHour && hour < endHour) || (hour === endHour && minute <= endMinute)) {
-          slots.push(time);
+            slots.push(time);
           }
         }
       }
@@ -116,6 +121,7 @@ const generateTimeIntervals = () => {
         <div
           key={time}
           className={`flex items-center justify-center p-2 border cursor-pointer select-none
+            ${disabled ? 'cursor-not-allowed opacity-50' : ''}
             ${isMixed(time) ? 'bg-purple-300' : (time === startTime || time === endTime || isHighlighted(time)) ? 'bg-green-500' : isFaded(time) ? 'bg-green-300' : (customOccupiedSlots.includes(time)) ? 'bg-red-300' : '' }
             hover:bg-green-500`}
           onClick={() => handleTimeClick(time)}

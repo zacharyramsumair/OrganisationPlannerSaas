@@ -20,42 +20,65 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createEvent } from "@/action/event";
-import { createOrganisation } from "@/action/organisation";
+import {
+	createOrganisation,
+	isOrganisationUsernameUnique,
+} from "@/action/organisation";
+// import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-type Props = {};
+type Props = {
+	currentUser: any;
+};
 
 const FormSchema = z.object({
 	name: z
 		.string()
 		.min(2, {
-			message: "Name must be at least 2 characters.",
+			message: "Display Name must be at least 2 characters.",
 		})
 		.max(100, {
-			message: "Title must be max 100 characters.",
+			message: "Display Name must be max 100 characters.",
+		}),
+		username: z
+		.string()
+		.min(2, {
+			message: "Username must be at least 2 characters.",
+		})
+		.max(100, {
+			message: "Username must be max 100 characters.",
+		})
+		.regex(/^[^\s<>\|\\\/]*$/, {
+			message: "Username cannot contain spaces or characters: < > / | \\",
 		}),
 	description: z.string().max(500, {
 		message: "Description must be max 500 characters.",
 	}),
-	email: z
-		.string()
-		.max(500, {
-			message: "Email must be max 500 characters.",
-		}),
-	contactNumber: z
-		.string()
-		.max(20, {
-			message: "Contact Number must be max 20 characters.",
-		}),
-	
+	email: z.string().max(500, {
+		message: "Email must be max 500 characters.",
+	}),
+	contactNumber: z.string().max(20, {
+		message: "Contact Number must be max 20 characters.",
+	}),
 });
 
 const OrganisationForm = (props: Props) => {
+	const router = useRouter();
 
+	if(props.currentUser.organisations.length > 0){
+		toast({
+			title: "Existing Organisation",
+			description:
+				"Only 1 organisation allowed on this account. Upgrade to create more.",
+		});
+		router.push("/dashboard")
+	}
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			name: "",
+			username: "",
 			description: "",
 			email: "",
 			contactNumber: "",
@@ -63,38 +86,49 @@ const OrganisationForm = (props: Props) => {
 	});
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
-		if (data.name =="") {
+		if (data.name == "" || data.username == "") {
 			toast({
 				title: "Missing Values",
-                description: "Please include a Name for your Organisation"
+				description:
+					"Please include a Name and Username for your Organisation",
 			});
-		} else {
-
-			let formData = {...data, organisationMainUser: "6674dcdf134f92c98a29575f"}
-
-			toast({
-				title: "You submitted the following values:",
-				description: (
-					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-						<code className="text-white">
-							{JSON.stringify(formData, null, 2)}
-						</code>
-					</pre>
-				),
-			});
-
-			await createOrganisation(formData)
-			
-
+			return;
 		}
-	}
 
-	
+		let isUserNameUnique = await isOrganisationUsernameUnique(data.username);
+
+		if(!isUserNameUnique){
+			toast({
+				title: "Username Taken",
+				description:
+					"Please try another",
+			});
+			return
+		}
+
+		let formData = { ...data, organisationMainUser: props.currentUser._id };
+
+		// toast({
+		// 	title: "You submitted the following values:",
+		// 	description: (
+		// 		<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+		// 			<code className="text-white">
+		// 				{JSON.stringify(formData, null, 2)}
+		// 			</code>
+		// 		</pre>
+		// 	),
+		// });
+
+		await createOrganisation(formData);
+		router.push("/dashboard");
+	}
 
 	return (
 		<div className="flex items-center justify-center">
 			<div className="w-full max-w-xl p-8 bg-white shadow-md rounded-lg">
-				<h1 className="text-2xl font-bold mb-6 text-center">Create Organisation</h1>
+				<h1 className="text-2xl font-bold mb-6 text-center">
+					Create Organisation
+				</h1>
 
 				<Form {...form}>
 					<form
@@ -106,9 +140,33 @@ const OrganisationForm = (props: Props) => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name <span className="text-red-500">*</span></FormLabel>
+									<FormLabel>
+										Name <span className="text-red-500">*</span>
+									</FormLabel>
 									<FormControl>
-										<Input placeholder="Leadership Counsil" {...field} />
+										<Input
+											placeholder="Leadership Counsil"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="username"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										Username <span className="text-red-500">*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="leadershipCounsil"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -122,7 +180,10 @@ const OrganisationForm = (props: Props) => {
 								<FormItem>
 									<FormLabel>Description</FormLabel>
 									<FormControl>
-										<Input placeholder="Small Description of your organisation" {...field} />
+										<Input
+											placeholder="Small Description of your organisation"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -136,7 +197,10 @@ const OrganisationForm = (props: Props) => {
 								<FormItem>
 									<FormLabel>Email</FormLabel>
 									<FormControl>
-										<Input placeholder="leadership@gmail.com" {...field} />
+										<Input
+											placeholder="leadership@gmail.com"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -157,7 +221,9 @@ const OrganisationForm = (props: Props) => {
 							)}
 						/>
 
-						<Button type="submit" className="w-full">Submit</Button>
+						<Button type="submit" className="w-full">
+							Submit
+						</Button>
 					</form>
 				</Form>
 			</div>

@@ -2,14 +2,15 @@ import Image from "next/image";
 import Navbar from "./../components/Navbar";
 import { Button } from "@/components/ui/button";
 import { ExampleForm } from "@/components/Examples/ExampleForm";
-import { getSession } from "@/lib/getSession";
 import { Organisation } from "./../models/organisation";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { getCurrentUser } from "@/action/user";
 
 export default async function Home() {
-	const session = await getSession();
+	const currentUser = await getCurrentUser();
 
-	if (!session) {
+	if (!currentUser) {
 		return (
 			<main className="p-24">
 				<Navbar />
@@ -31,7 +32,7 @@ export default async function Home() {
 		);
 	}
 
-	if (session) {
+	if (currentUser) {
 		return (
 			<main className="p-24">
 				<Navbar />
@@ -43,9 +44,16 @@ export default async function Home() {
 				</section>
 				<section className="flex gap-6  items-center justify-center">
 					<Button variant={"outline"}>Search</Button>
-					<Link href={"/createOrganisation"}>
-					<Button>Create Organisation</Button>
-					</Link>
+
+					{currentUser.organisations.length > 0 ? (
+						<Link href={"/dashboard"}>
+							<Button>Dashboard</Button>
+						</Link>
+					) : (
+						<Link href={"/createOrganisation"}>
+							<Button>Create Organisation</Button>
+						</Link>
+					)}
 				</section>{" "}
 			</main>
 		);
