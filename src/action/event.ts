@@ -143,12 +143,10 @@ const deleteEvent = async (eventId: any) => {
     // Connect to the MongoDB database
     await connectMongoDB();
 
-    console.log("here 1")
 
     // Find the event by its ID
     const event = await Event.findById(eventId);
 
-    console.log("here 2")
 
 
     // If event is not found, throw an error
@@ -169,7 +167,7 @@ const deleteEvent = async (eventId: any) => {
     }
     
     // Remove the event from the database
-    await Event.deleteOne({ _id:eventId });;
+    await Event.deleteOne({ _id: eventId });
     
     return { message: "Event deleted successfully" };
   } catch (error: any) {
