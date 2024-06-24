@@ -3,12 +3,13 @@
 import connectMongoDB from "@/lib/mongodb";
 import { Organisation } from "@/models/organisation";
 import { User } from "@/models/user"; // Assuming you have a User model
+import { Event } from "@/models/event";
 import { getCurrentUser } from "./user";
 
 const isOrganisationUsernameUnique = async (username: string) => {
   await connectMongoDB();
 
-  const organisation = await Organisation.findOne({ username });
+  const organisation = await Organisation.findOne({ username:username.toLowerCase() });
 
   return !organisation; // Returns true if username is unique, false otherwise
 };
@@ -40,7 +41,7 @@ const createOrganisation = async (formData: any) => {
       contactNumber, 
       email, 
       organisationMainUser,
-      username
+      username:username.toLowerCase()
     });
 
     // Update the current user's organisations array
@@ -66,9 +67,29 @@ const getOrganisationById = async (organisationId: string) => {
     const organisation = await Organisation.findById(organisationId)
       .populate({
         path: "events",
+        model: Event,
         options: { sort: { updatedAt: -1 } } // Sorting events by updatedAt in descending order
       })
       .lean();
+
+    if (!organisation) {
+      throw new Error("Organisation not found");
+    }
+
+    return organisation;
+  } catch (error: any) {
+    console.log("here we are", error.message);
+    throw new Error("Error while fetching Organisation");
+  }
+};
+
+
+
+const getOrganisationByIdWithoutPopulatedEvents = async (organisationId: string) => {
+  await connectMongoDB();
+
+  try {
+    const organisation = await Organisation.findById(organisationId).lean();
 
     if (!organisation) {
       throw new Error("Organisation not found");
@@ -81,4 +102,26 @@ const getOrganisationById = async (organisationId: string) => {
   }
 };
 
-export { createOrganisation, isOrganisationUsernameUnique, getOrganisationById };
+const updateOrganisation = async (organisationId:any, updateData:any) => {
+  await connectMongoDB();
+  
+
+  try {
+    const updatedOrganisation = await Organisation.findByIdAndUpdate(
+      organisationId,
+      updateData,
+      { new: true }
+    ).lean();
+
+    if (!updatedOrganisation) {
+      throw new Error("Organisation not found");
+    }
+
+    return updatedOrganisation;
+  } catch (error:any) {
+    console.log(error.message);
+    throw new Error("Error while updating Organisation");
+  }
+};
+
+export { createOrganisation, isOrganisationUsernameUnique, getOrganisationById, getOrganisationByIdWithoutPopulatedEvents, updateOrganisation };

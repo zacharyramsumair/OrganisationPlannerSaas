@@ -23,12 +23,14 @@ import { createEvent } from "@/action/event";
 import {
 	createOrganisation,
 	isOrganisationUsernameUnique,
+	updateOrganisation,
 } from "@/action/organisation";
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 type Props = {
 	currentUser: any;
+	organisationInformation:any
 };
 
 const FormSchema = z.object({
@@ -62,26 +64,19 @@ const FormSchema = z.object({
 	}),
 });
 
-const OrganisationForm = (props: Props) => {
+const EditOrganisationForm = (props: Props) => {
 	const router = useRouter();
 
-	if(props.currentUser.organisations.length > 0){
-		toast({
-			title: "Existing Organisation",
-			description:
-				"Only 1 organisation allowed on this account. Upgrade to create more.",
-		});
-		router.push("/dashboard")
-	}
+	
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			name: "",
-			username: "",
-			description: "",
-			email: "",
-			contactNumber: "",
+			name: props.organisationInformation.name,
+			username: props.organisationInformation.username,
+			description: props.organisationInformation.description,
+			email: props.organisationInformation.email,
+			contactNumber: props.organisationInformation.contactNumber,
 		},
 	});
 
@@ -99,7 +94,7 @@ const OrganisationForm = (props: Props) => {
 
 		let isUserNameUnique = await isOrganisationUsernameUnique(data.username);
 
-		if(!isUserNameUnique){
+		if(!isUserNameUnique && data.username != props.organisationInformation.username){
 			toast({
 				title: "Username Taken",
 				description:
@@ -110,18 +105,9 @@ const OrganisationForm = (props: Props) => {
 
 		let formData = { ...data, organisationMainUser: props.currentUser._id };
 
-		// toast({
-		// 	title: "You submitted the following values:",
-		// 	description: (
-		// 		<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-		// 			<code className="text-white">
-		// 				{JSON.stringify(formData, null, 2)}
-		// 			</code>
-		// 		</pre>
-		// 	),
-		// });
+		
 
-		await createOrganisation(formData);
+		await updateOrganisation(props.organisationInformation._id,formData);
 		router.push("/dashboard");
 	}
 
@@ -233,4 +219,4 @@ const OrganisationForm = (props: Props) => {
 	);
 };
 
-export default OrganisationForm;
+export default EditOrganisationForm;
