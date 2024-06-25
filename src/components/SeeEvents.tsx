@@ -6,7 +6,8 @@ import { Calendar, List } from 'lucide-react';
 import { Button } from './ui/button';
 
 const SeeEvents = () => {
-  const [view, setView] = useState<'calendar' | 'list'>('calendar');
+  const [view, setView] = useState<'calendar' | 'list'>('list');
+  // const [view, setView] = useState<'calendar' | 'list'>('calendar');
 
   const switchToCalendarView = () => {
     setView('calendar');

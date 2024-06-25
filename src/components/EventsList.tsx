@@ -38,6 +38,7 @@ const EventsList: React.FC = () => {
     }
   };
 
+  console.log(events)
   const handleNextMonth = () => {
     if (currentMonth === 12) {
       setCurrentMonth(1);

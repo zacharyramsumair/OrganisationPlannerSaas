@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import {getAllEventsForTheYear} from "@/action/event";
 import { toast } from "@/components/ui/use-toast";
+import { EventCard } from "../EventCard";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -70,6 +71,7 @@ function ShowCalendar({
       );
       if (events.length > 0) {
         setSelectedEvents(events);
+        console.log("selected", selectedEvents)
       }
     };
 
@@ -146,13 +148,16 @@ function ShowCalendar({
         </div>
 
         <div className="w-full lg:w-1/2 p-2 md:p-4 eventSection">
-          <h2 className="text-lg font-medium">Events</h2>
+          <h2 className="text-lg font-extrabold my-2">Events</h2>
           {selectedEvents.length > 0 ? (
             <ul>
-              {selectedEvents.map((event, index) => (
-                <li key={index} className="mt-2">
+              {selectedEvents.map((event:any, index:any) => (
+                <div className="mb-3">
+                {/* <li key={index} className="mt-2">
                   <strong>{event.title}</strong> on {event.date.toDateString()}
-                </li>
+                </li> */}
+                <EventCard event={event} />
+                </div>
               ))}
             </ul>
           ) : (
