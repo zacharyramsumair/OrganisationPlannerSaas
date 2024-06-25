@@ -10,7 +10,8 @@ const organisationSchema = new mongoose.Schema({
   parentOrganisation: { type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ,
   childrenOrganisations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ],
   childrenOrganisationsRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ],
-  events:[{ type: mongoose.Schema.Types.ObjectId, ref: "Event" } ]
+  events:[{ type: mongoose.Schema.Types.ObjectId, ref: "Event" } ],
+  groups:[{ type: mongoose.Schema.Types.ObjectId, ref: "Group" } ]
 }, {
   timestamps: true // Add this line to enable timestamps
 });

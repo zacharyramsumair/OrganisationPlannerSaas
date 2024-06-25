@@ -26,7 +26,7 @@ function ShowCalendar({
     const fetchEvents = async () => {
       try {
         const events = await getAllEventsForTheYear(currentYear);
-        const parsedEvents = events.map(event => ({
+        const parsedEvents:any = events.map(event => ({
           ...event,
           date: new Date(event.date)
         }));

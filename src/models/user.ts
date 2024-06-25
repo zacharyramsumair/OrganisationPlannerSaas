@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
 //   password: { type: String, select: false },
   role: { type: String, default: "user" },
+  tier: { type: String, default: "free" },
   image: { type: String },
   authProviderId: { type: String },
   organisations:[{ type: mongoose.Schema.Types.ObjectId, ref: "Organisation" } ]

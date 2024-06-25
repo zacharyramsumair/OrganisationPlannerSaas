@@ -55,7 +55,8 @@ const EditEventForm = ({ currentUser, currentEvent }: any) => {
   const fetchOccupiedTimes = async (selectedDate: string) => {
     try {
       const events = await getAllEventsForSpecificDate(selectedDate);
-      const occupiedTimes = events.map((event: any) => ({
+      const filteredEvents = events.filter(event => event._id !== currentEvent._id);
+      const occupiedTimes = filteredEvents.map((event: any) => ({
         startTime: event.startTime,
         endTime: event.endTime,
       }));
