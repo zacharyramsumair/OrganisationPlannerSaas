@@ -1,10 +1,10 @@
-// EventsList.tsx
-"use client"
+"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Importing Chevron icons
 import { getAllEventsForTheYear } from "@/action/event";
 import { toast } from "@/components/ui/use-toast";
+import { EventListTable } from "./EventListTable";
 
 interface Event {
   _id: string;
@@ -38,7 +38,6 @@ const EventsList: React.FC = () => {
     }
   };
 
-  console.log(events)
   const handleNextMonth = () => {
     if (currentMonth === 12) {
       setCurrentMonth(1);
@@ -64,21 +63,15 @@ const EventsList: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="text-center">
-        <h2>
+        <h1 className="text-3xl font-bold mb-4 p-2 bg-gray-100 rounded-lg inline-block">
           <ChevronLeft onClick={handlePreviousMonth} className="cursor-pointer inline-block" /> 
           Events for {new Date(currentYear, currentMonth - 1).toLocaleString('default', { month: 'long', year: 'numeric' })} 
           <ChevronRight onClick={handleNextMonth} className="cursor-pointer inline-block" />
-        </h2>
+        </h1>
         {events.length > 0 ? (
-          <ul>
-            {events.map((event) => (
-              <li key={event._id}>
-                <strong>{event.title}</strong> on {new Date(event.date).toLocaleDateString()} - {event.startTime} to {event.endTime}
-              </li>
-            ))}
-          </ul>
+          <EventListTable events={events}/>
         ) : (
-          <p>No events for this month.</p>
+          <h3>No events for this month.</h3>
         )}
       </div>
     </div>

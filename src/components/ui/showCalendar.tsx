@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import {getAllEventsForTheYear} from "@/action/event";
+import { getAllEventsForTheYear } from "@/action/event";
 import { toast } from "@/components/ui/use-toast";
 import { EventCard } from "../EventCard";
 
@@ -26,13 +26,11 @@ function ShowCalendar({
     const fetchEvents = async () => {
       try {
         const events = await getAllEventsForTheYear(currentYear);
-        // Convert event dates from strings to Date objects
         const parsedEvents = events.map(event => ({
           ...event,
           date: new Date(event.date)
         }));
         setEventDates(parsedEvents);
-        console.log("Fetched events:", events);
       } catch (error) {
         console.error("Error fetching events:", error);
         toast({
@@ -56,7 +54,6 @@ function ShowCalendar({
   const handleMonthChange = (month: Date) => {
     setCurrentMonth(month);
     setCurrentYear(month.getFullYear());
-    console.log("Current month:", month.getMonth() + 1, "Current year:", month.getFullYear());
   };
 
   const CustomDay = ({ date, selected, className, ...props }) => {
@@ -71,7 +68,6 @@ function ShowCalendar({
       );
       if (events.length > 0) {
         setSelectedEvents(events);
-        console.log("selected", selectedEvents)
       }
     };
 
@@ -93,12 +89,12 @@ function ShowCalendar({
   };
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center min-h-screen">
-      <div className="flex flex-col lg:flex-row w-full max-w-6xl">
-        <div className="w-full lg:w-1/2 p-2 md:p-4 calendarSection">
+    <div className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen md:min-h-min">
+      <div className="flex flex-col lg:flex-row w-full max-w-6xl justify-center">
+        <div className="w-full lg:w-1/2 px-2 md:p-4 flex justify-center calendarSection">
           <DayPicker
             showOutsideDays={showOutsideDays}
-            className={cn("p-3 w-full", className)}
+            className={cn("", className)}
             classNames={{
               months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
               month: "space-y-4",
@@ -147,21 +143,18 @@ function ShowCalendar({
           />
         </div>
 
-        <div className="w-full lg:w-1/2 p-2 md:p-4 eventSection">
+        <div className="w-full lg:w-1/2 p-2 md:p-4 eventSection flex flex-col justify-center items-center">
           <h2 className="text-lg font-extrabold my-2">Events</h2>
           {selectedEvents.length > 0 ? (
-            <ul>
-              {selectedEvents.map((event:any, index:any) => (
-                <div className="mb-3">
-                {/* <li key={index} className="mt-2">
-                  <strong>{event.title}</strong> on {event.date.toDateString()}
-                </li> */}
-                <EventCard event={event} />
+            <ul className="w-full">
+              {selectedEvents.map((event: any, index: any) => (
+                <div className="mb-3" key={index}>
+                  <EventCard event={event} />
                 </div>
               ))}
             </ul>
           ) : (
-            <p>No events for this date.</p>
+            <p className="w-full text-center">No events for this date.</p>
           )}
         </div>
       </div>
