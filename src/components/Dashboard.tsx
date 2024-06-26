@@ -23,17 +23,17 @@ const Dashboard = async (props: Props) => {
 							<h2 className="text-2xl font-bold mb-2">
 								Organisation: {props.organisationInformation.name}
 							</h2>
-							<p className="text-gray-600 mb-4">
+							<p className=" mb-4">
 								Username: @{props.organisationInformation.username}
 							</p>
-							<p className="text-gray-600 mb-2">
+							<p className=" mb-2">
 								Description:{" "}
 								{props.organisationInformation.description || "N/A"}
 							</p>
-							<p className="text-gray-600 mb-2">
+							<p className=" mb-2">
 								Email: {props.organisationInformation.email || "N/A"}
 							</p>
-							<p className="text-gray-600 mb-2">
+							<p className=" mb-2">
 								Contact Number:{" "}
 								{props.organisationInformation.contactNumber || "N/A"}
 							</p>

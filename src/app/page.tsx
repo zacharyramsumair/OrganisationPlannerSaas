@@ -1,11 +1,7 @@
-import Image from "next/image";
-import Navbar from "./../components/Navbar";
-import { Button } from "@/components/ui/button";
-import { ExampleForm } from "@/components/Examples/ExampleForm";
-import { Organisation } from "./../models/organisation";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { getCurrentUser } from "@/action/user";
+import { ExampleForm } from "@/components/Examples/ExampleForm";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Home() {
 	const currentUser = await getCurrentUser();
@@ -13,7 +9,6 @@ export default async function Home() {
 	if (!currentUser) {
 		return (
 			<main className="p-24">
-				<Navbar />
 				<section className="py-12 flex flex-col items-center text-center">
 					<h1 className="text-4xl font-bold">Shadcn is awesome</h1>
 					<p className="text-2xl text-muted-foreground">
@@ -35,7 +30,6 @@ export default async function Home() {
 	if (currentUser) {
 		return (
 			<main className="p-24">
-				<Navbar />
 				<section className="py-12 flex flex-col items-center text-center">
 					<h1 className="text-4xl font-bold">Some Headline</h1>
 					{/* <p className="text-2xl text-muted-foreground">

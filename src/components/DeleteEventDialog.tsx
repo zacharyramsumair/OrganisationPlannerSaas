@@ -30,7 +30,7 @@ export function DeleteEventDialog(props:any) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Delete</Button>
+        <Button className={"mx-2"} variant="destructive">Delete</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
