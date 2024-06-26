@@ -26,7 +26,7 @@ const NavbarContent = (props: Props) => {
 	};
 
 	useEffect(() => {
-		const handleOutsideClick = (event) => {
+		const handleOutsideClick = (event:any) => {
 			if (drawerRef.current && !drawerRef.current.contains(event.target)) {
 				setIsDrawerOpen(false);
 			}
@@ -53,19 +53,22 @@ const NavbarContent = (props: Props) => {
 						</button>
 					</div>
 					<a
-						href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						target="_blank"
+						// href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+						// target="_blank"
+						href="/"
 						rel="noopener noreferrer"
 						className="ml-4"
 					>
-						<Image
+
+						UEvents<sup>BETA</sup>
+						{/* <Image
 							src="/vercel.svg"
 							alt="Vercel Logo"
 							className="dark:invert"
 							width={100}
 							height={24}
 							priority
-						/>
+						/> */}
 					</a>
 				</div>
 				<div className="hidden lg:flex space-x-4 items-center">

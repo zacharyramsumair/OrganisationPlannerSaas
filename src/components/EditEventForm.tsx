@@ -56,7 +56,7 @@ const EditEventForm = ({ currentUser, currentEvent }: any) => {
     try {
       const events = await getAllEventsForSpecificDate(selectedDate);
       const filteredEvents = events.filter(event => event._id !== currentEvent._id);
-      const occupiedTimes = filteredEvents.map((event: any) => ({
+      const occupiedTimes:any = filteredEvents.map((event: any) => ({
         startTime: event.startTime,
         endTime: event.endTime,
       }));
@@ -117,7 +117,7 @@ const EditEventForm = ({ currentUser, currentEvent }: any) => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-xl p-8 bg-white shadow-md rounded-lg">
+      <div className="w-full max-w-xl p-8  shadow-md rounded-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Edit Event</h1>
 
         <Form {...form}>

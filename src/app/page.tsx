@@ -2,54 +2,60 @@ import { getCurrentUser } from "@/action/user";
 import { ExampleForm } from "@/components/Examples/ExampleForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import HomePage from "@/components/HomePage/HomePage";
+
 
 export default async function Home() {
 	const currentUser = await getCurrentUser();
 
-	if (!currentUser) {
-		return (
-			<main className="p-24">
-				<section className="py-12 flex flex-col items-center text-center">
-					<h1 className="text-4xl font-bold">Shadcn is awesome</h1>
-					<p className="text-2xl text-muted-foreground">
-						Hand picked themes that you can copy and paste
-					</p>
-				</section>
-				<section className="flex gap-6  items-center justify-center">
-					<Button variant={"outline"}>Learn More</Button>
-					<Button>Enroll Now</Button>
-				</section>
+	return (
+		<HomePage currentUser={currentUser}/>
+	)
 
-				<section className="flex gap-6  items-center justify-center">
-					<ExampleForm />
-				</section>
-			</main>
-		);
-	}
+	// if (!currentUser) {
+	// 	return (
+	// 		<main className="p-24">
+	// 			<section className="py-12 flex flex-col items-center text-center">
+	// 				<h1 className="text-4xl font-bold">Shadcn is awesome</h1>
+	// 				<p className="text-2xl text-muted-foreground">
+	// 					Hand picked themes that you can copy and paste
+	// 				</p>
+	// 			</section>
+	// 			<section className="flex gap-6  items-center justify-center">
+	// 				<Button variant={"outline"}>Learn More</Button>
+	// 				<Button>Enroll Now</Button>
+	// 			</section>
 
-	if (currentUser) {
-		return (
-			<main className="p-24">
-				<section className="py-12 flex flex-col items-center text-center">
-					<h1 className="text-4xl font-bold">Some Headline</h1>
-					{/* <p className="text-2xl text-muted-foreground">
-					Hand picked themes that you can copy and paste
-				</p> */}
-				</section>
-				<section className="flex gap-6  items-center justify-center">
-					<Button variant={"outline"}>Search</Button>
+	// 			<section className="flex gap-6  items-center justify-center">
+	// 				<ExampleForm />
+	// 			</section>
+	// 		</main>
+	// 	);
+	// }
 
-					{currentUser.organisations.length > 0 ? (
-						<Link href={"/dashboard"}>
-							<Button>Dashboard</Button>
-						</Link>
-					) : (
-						<Link href={"/createOrganisation"}>
-							<Button>Create Organisation</Button>
-						</Link>
-					)}
-				</section>{" "}
-			</main>
-		);
-	}
+	// if (currentUser) {
+	// 	return (
+	// 		<main className="p-24">
+	// 			<section className="py-12 flex flex-col items-center text-center">
+	// 				<h1 className="text-4xl font-bold">Some Headline</h1>
+	// 				{/* <p className="text-2xl text-muted-foreground">
+	// 				Hand picked themes that you can copy and paste
+	// 			</p> */}
+	// 			</section>
+	// 			<section className="flex gap-6  items-center justify-center">
+	// 				<Button variant={"outline"}>Search</Button>
+
+	// 				{currentUser.organisations.length > 0 ? (
+	// 					<Link href={"/dashboard"}>
+	// 						<Button>Dashboard</Button>
+	// 					</Link>
+	// 				) : (
+	// 					<Link href={"/createOrganisation"}>
+	// 						<Button>Create Organisation</Button>
+	// 					</Link>
+	// 				)}
+	// 			</section>{" "}
+	// 		</main>
+	// 	);
+	// }
 }

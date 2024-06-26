@@ -65,7 +65,7 @@ if(user){
 
     await connectMongoDB();
     const currentUser = await User.findOne({email:session?.user?.email});
-    return currentUser;
+    return JSON.parse(JSON.stringify(currentUser));
 }else{
     return false
 }

@@ -29,7 +29,7 @@ const createOrganisation = async (formData: any) => {
     }
 
     let currentUser = await getCurrentUser();
-    console.log(currentUser);
+    // console.log(currentUser);
 
     if (currentUser.organisations.length > 0) {
       throw new Error("Only allowed One Organisation per account. Upgrade to create more");
@@ -76,7 +76,7 @@ const getOrganisationById = async (organisationId: string) => {
       throw new Error("Organisation not found");
     }
 
-    return organisation;
+    return JSON.parse(JSON.stringify(organisation));
   } catch (error: any) {
     console.log("here we are", error.message);
     throw new Error("Error while fetching Organisation");
@@ -95,7 +95,7 @@ const getOrganisationByIdWithoutPopulatedEvents = async (organisationId: string)
       throw new Error("Organisation not found");
     }
 
-    return organisation;
+    return JSON.parse(JSON.stringify(organisation));
   } catch (error: any) {
     console.log(error.message);
     throw new Error("Error while fetching Organisation");
@@ -117,7 +117,7 @@ const updateOrganisation = async (organisationId:any, updateData:any) => {
       throw new Error("Organisation not found");
     }
 
-    return updatedOrganisation;
+    return JSON.parse(JSON.stringify(updatedOrganisation));
   } catch (error:any) {
     console.log(error.message);
     throw new Error("Error while updating Organisation");

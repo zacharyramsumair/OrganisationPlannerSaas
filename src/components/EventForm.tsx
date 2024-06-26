@@ -133,7 +133,7 @@ const EventForm = (props: Props) => {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="w-full max-w-xl p-8 bg-white shadow-md rounded-lg">
+            <div className="w-full max-w-xl p-8  shadow-md rounded-lg">
                 <h1 className="text-2xl font-bold mb-6 text-center">Create Event</h1>
 
                 <Form {...form}>

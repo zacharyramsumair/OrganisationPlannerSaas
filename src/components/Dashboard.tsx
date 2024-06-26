@@ -11,7 +11,7 @@ type Props = {
 	organisationInformation: any;
 };
 
-const Dashboard = async (props: Props) => {
+const Dashboard =  (props: Props) => {
 	return (
 		<>
 			<div className="p-6">

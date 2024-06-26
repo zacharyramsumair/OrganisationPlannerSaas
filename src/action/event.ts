@@ -20,6 +20,7 @@ const createEvent = async (formData: any) => {
 
     organisationDetails.events.push(newEvent._id);
     await organisationDetails.save();
+    return;
   } catch (error: any) {
     console.log(error.message);
     throw new Error("Error while creating user");
@@ -38,7 +39,7 @@ const getAllEventsForTheYear = async (year: number) => {
     return eventDate.getFullYear() === year;
   });
 
-  return filteredEvents;
+  return JSON.parse(JSON.stringify(filteredEvents));
 }
 
 const getAllEventsForSpecificDate = async (date: string) => {
@@ -62,7 +63,7 @@ const getAllEventsForSpecificDate = async (date: string) => {
     );
   });
 
-  return filteredEvents;
+  return JSON.parse(JSON.stringify(filteredEvents))
 }
 
 
@@ -78,16 +79,13 @@ const getAllEventsForOrganisation = async (organisationId:any) => {
 
 const getEventById = async (eventId:any) => {
   try {
-    console.log("problem 1")
     // Connect to the MongoDB database
     await connectMongoDB();
 
-    console.log("problem 2")
 
 
     // Find the event by its ID
     const event = await Event.findById(eventId).lean();
-    console.log("problem 3")
 
 
     // If event is not found, throw an error

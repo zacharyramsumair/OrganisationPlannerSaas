@@ -13,7 +13,7 @@ type Props = {}
 const dashboard = async (props: Props) => {
   const currentUser = await getCurrentUser()
 	if (!currentUser) {
-    redirect("/")
+    redirect("/login")
 	}
 
   if (!(currentUser.organisations.length > 0)) {
