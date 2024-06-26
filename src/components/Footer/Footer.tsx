@@ -34,6 +34,8 @@ export default function Footer() {
 						href="https://www.instagram.com/zacharyramsumair/"
 						className="text-white hover:text-gray-300"
 						prefetch={false}
+                        target="_blank"
+                        rel="noopener noreferrer"
 					>
 						<InstagramIcon className="h-6 w-6" />
 						<span className="sr-only">Instagram</span>
@@ -42,6 +44,8 @@ export default function Footer() {
 						href="https://insigh.to/b/uevents-feedback-and-suggestions"
 						className="text-white hover:text-gray-300"
 						prefetch={false}
+                         target="_blank"
+                        rel="noopener noreferrer"
 					>
 						<FeedbackIcon className="h-6 w-6" />
 						<span className="sr-only">Feedback and Suggestions</span>
