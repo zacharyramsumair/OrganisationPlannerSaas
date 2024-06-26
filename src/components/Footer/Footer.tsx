@@ -31,7 +31,7 @@ export default function Footer() {
             <span className="sr-only">Twitter</span>
           </Link> */}
 					<Link
-						href="#"
+						href="https://www.instagram.com/zacharyramsumair/"
 						className="text-white hover:text-gray-300"
 						prefetch={false}
 					>
@@ -39,12 +39,12 @@ export default function Footer() {
 						<span className="sr-only">Instagram</span>
 					</Link>
 					<Link
-						href="#"
+						href="https://insigh.to/b/uevents-feedback-and-suggestions"
 						className="text-white hover:text-gray-300"
 						prefetch={false}
 					>
 						<FeedbackIcon className="h-6 w-6" />
-						<span className="sr-only">Feedback</span>
+						<span className="sr-only">Feedback and Suggestions</span>
 					</Link>
 				</div>
 				<p className="mt-4 md:mt-0 text-sm text-gray-300">
