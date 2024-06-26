@@ -12,7 +12,7 @@ const page = async (props: Props) => {
 	if (!currentUser) {
     redirect("/")
 	}
-  console.log(currentUser)
+  // console.log(currentUser)
   return (
     <div>
       <EventForm currentUser={currentUser}/>

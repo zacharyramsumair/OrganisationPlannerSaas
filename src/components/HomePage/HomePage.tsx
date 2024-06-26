@@ -36,7 +36,7 @@ function HomePage({ currentUser }: any) {
 					</svg>
 				</Link>
 				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-					Engage your Audience <span className="text-primary">With Tech</span>{" "}
+					Engage your Audience With <span className="text-primary">U</span>Events
 				</h1>
 				<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
 					Effortlessly Craft a Calendar of Events with Our application

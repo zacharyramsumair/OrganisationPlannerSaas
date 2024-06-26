@@ -10,7 +10,7 @@ const Navbar = async () => {
 		await signOut();
 	};
 
-	console.log("curent", currentUser);
+	// console.log("curent", currentUser);
 
 	return <NavbarContent currentUser={currentUser} signOutUser={signOutUser} />;
 };

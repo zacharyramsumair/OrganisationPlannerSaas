@@ -26,7 +26,7 @@ const NavbarContent = (props: Props) => {
 	};
 
 	useEffect(() => {
-		const handleOutsideClick = (event:any) => {
+		const handleOutsideClick = (event: any) => {
 			if (drawerRef.current && !drawerRef.current.contains(event.target)) {
 				setIsDrawerOpen(false);
 			}
@@ -59,8 +59,8 @@ const NavbarContent = (props: Props) => {
 						rel="noopener noreferrer"
 						className="ml-4"
 					>
-
-						UEvents<sup>BETA</sup>
+						<span className="text-primary">U</span>
+						Events<sup>BETA</sup>
 						{/* <Image
 							src="/vercel.svg"
 							alt="Vercel Logo"

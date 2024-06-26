@@ -16,9 +16,9 @@ const fetchEventData = async (eventId: string) => {
 
   const currentEvent = await getEventById(eventId);
 
-  console.log(currentEvent)
-  console.log(currentEvent.organisation)
-  console.log(currentUser.organisations[0])
+  // console.log(currentEvent)
+  // console.log(currentEvent.organisation)
+  // console.log(currentUser.organisations[0])
 
   if (!currentEvent || currentEvent.organisation != currentUser.organisations[0]) {
     return { redirect: "/dashboard" };
