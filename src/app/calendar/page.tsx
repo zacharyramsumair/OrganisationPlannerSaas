@@ -5,7 +5,7 @@ const Page = () => {
 
 
   return (
-    <div>
+    <div className='min-h-screen'>
      <SeeEvents/>
     </div>
   );

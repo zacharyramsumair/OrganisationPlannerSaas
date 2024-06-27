@@ -21,14 +21,11 @@ const dashboard = async (props: Props) => {
 	}
 
   let organisationInformation = await getOrganisationById(currentUser.organisations[0])
-  // console.log(organisationInformation)
-  // console.log(currentUser)
+
   
   return (
     <div>
-      {/* <Link href={"/createEvent"}>
-      <Button>Create Event</Button>
-      </Link> */}
+      
       <Dashboard organisationInformation={organisationInformation}/>
     </div>
   )

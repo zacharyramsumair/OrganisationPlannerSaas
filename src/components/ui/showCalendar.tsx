@@ -1,8 +1,8 @@
-"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { getAllEventsForTheYear } from "@/action/event";
@@ -26,7 +26,7 @@ function ShowCalendar({
     const fetchEvents = async () => {
       try {
         const events = await getAllEventsForTheYear(currentYear);
-        const parsedEvents:any = events.map(event => ({
+        const parsedEvents = events.map(event => ({
           ...event,
           date: new Date(event.date)
         }));
@@ -66,31 +66,36 @@ function ShowCalendar({
           date.getMonth() === event.date.getMonth() &&
           date.getFullYear() === event.date.getFullYear()
       );
-      if (events.length > 0) {
-        setSelectedEvents(events);
-      }
+      setSelectedEvents(events);
     };
 
     return (
-      <div
+      <motion.div
         {...props}
         className={cn(
           "relative",
           className,
           isEvent
-            ? "bg-blue-200 text-blue-700 cursor-pointer"
+            ? "bg-blue-200 dark:bg-blue-800 text-blue-700 dark:text-blue-300 cursor-pointer"
             : "cursor-default"
         )}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         onClick={handleClick}
       >
         {date.getDate()}
-      </div>
+      </motion.div>
     );
   };
 
   return (
     <div className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen md:min-h-min">
-      <div className="flex flex-col lg:flex-row w-full max-w-6xl justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col lg:flex-row w-full max-w-6xl justify-center bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg p-6"
+      >
         <div className="w-full lg:w-1/2 px-2 md:p-4 flex justify-center calendarSection">
           <DayPicker
             showOutsideDays={showOutsideDays}
@@ -144,23 +149,46 @@ function ShowCalendar({
         </div>
 
         <div className="w-full lg:w-1/2 p-2 md:p-4 eventSection flex flex-col justify-center items-center">
-          <h2 className="text-lg font-extrabold my-2">Events</h2>
+          <h2 className="text-lg font-extrabold my-2 flex items-center">
+            <CalendarIcon className="mr-2 h-6 w-6 text-primary" />
+            Events
+          </h2>
           {selectedEvents.length > 0 ? (
-            <ul className="w-full">
+            <motion.ul
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-full"
+            >
               {selectedEvents.map((event: any, index: any) => (
-                <div className="mb-3" key={index}>
+                <motion.div
+                  key={event._id}
+                  className="mb-3"
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <EventCard event={event} />
-                </div>
+                </motion.div>
               ))}
-            </ul>
+            </motion.ul>
           ) : (
-            <p className="w-full text-center">No events for this date.</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-full text-center"
+            >
+              No events for this date.
+            </motion.p>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
+
 ShowCalendar.displayName = "ShowCalendar";
 
 export { ShowCalendar };

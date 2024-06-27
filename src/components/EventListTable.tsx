@@ -1,51 +1,71 @@
-import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableFooter,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
+import * as React from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from 'date-fns';
+import convert24HourTo12Hour from "@/lib/convert24HourTo12Hour";
+import { motion } from 'framer-motion';
+import { Calendar, MapPin, User, Clock, Star } from 'lucide-react';
 
 export function EventListTable({ events }: any) {
-	return (
-		<div className="overflow-x-auto">
-			<Table className="min-w-full">
-				{/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-				<TableHeader>
-					<TableRow>
-						<TableHead className="text-left">Event</TableHead>
-						<TableHead className="text-left hidden sm:table-cell">Host</TableHead>
-						<TableHead className="text-left hidden md:table-cell">Location</TableHead>
-						<TableHead className="text-left">Date</TableHead>
-						<TableHead className="text-left">Time</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{events.map((event) => (
-						<TableRow key={event._id}>
-							<TableCell className="text-left">
-								{event.title}
-							</TableCell>
-							<TableCell className="text-left hidden sm:table-cell">{event.host}</TableCell>
-							<TableCell className="text-left hidden md:table-cell">{event.location || "TBA"}</TableCell>
-							<TableCell className="text-left">
-								{format(new Date(event.date), "EEEE do MMMM, yyyy")}
-							</TableCell>
-							<TableCell className="text-left">{event.startTime} - {event.endTime}</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-				{/* <TableFooter>
-					<TableRow>
-						<TableCell colSpan={3}>Total</TableCell>
-						<TableCell className="text-right">$2,500.00</TableCell>
-					</TableRow>
-				</TableFooter> */}
-			</Table>
-		</div>
-	);
+  return (
+    <div className="overflow-x-auto">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Table className="min-w-full bg-gray-100 dark:bg-gray-800 shadow-md rounded-lg">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left">Event</TableHead>
+              <TableHead className="text-left hidden sm:table-cell">Host</TableHead>
+              <TableHead className="text-left hidden md:table-cell">Location</TableHead>
+              <TableHead className="text-left">Date</TableHead>
+              <TableHead className="text-left">Time</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {events.map((event) => (
+              <motion.tr
+                key={event._id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <TableCell className="text-left">
+                  <div className="flex items-center space-x-2">
+                    <Star className="h-5 w-5 text-primary" />
+                    <span>{event.title}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-left hidden sm:table-cell">
+                  <div className="flex items-center space-x-2">
+                    <User className="h-5 w-5 text-primary" />
+                    <span>{event.host}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-left hidden md:table-cell">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="h-5 w-5 text-primary" />
+                    <span>{event.location || "TBA"}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-left">
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <span>{format(new Date(event.date), "EEEE do MMMM, yyyy")}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-left">
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <span>{convert24HourTo12Hour(event.startTime)} - {convert24HourTo12Hour(event.endTime)}</span>
+                  </div>
+                </TableCell>
+              </motion.tr>
+            ))}
+          </TableBody>
+        </Table>
+      </motion.div>
+    </div>
+  );
 }

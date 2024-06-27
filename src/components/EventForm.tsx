@@ -1,12 +1,13 @@
-"use client";
-
+"use client"
 import React, { useState, useEffect } from "react";
 import TimePicker from "./Timepicker/TimePicker";
 import { DatePicker } from "./ui/date-picker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion"; // Import motion from Framer Motion
+import { Calendar, Clock, MapPin, AlertCircle } from 'lucide-react'; // Lucide icons
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -19,7 +20,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createEvent, getAllEventsForSpecificDate } from "@/action/event";
-import { useRouter } from "next/navigation";
 
 type Props = {
     currentUser: any
@@ -44,7 +44,7 @@ const FormSchema = z.object({
         }),
 });
 
-const EventForm = (props: Props) => {
+const EventForm = ({ currentUser }: Props) => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [date, setDate] = useState(null);
@@ -62,34 +62,29 @@ const EventForm = (props: Props) => {
         }
     }, [date]);
 
-    const fetchOccupiedTimes = async (selectedDate:any) => {
+    const fetchOccupiedTimes = async (selectedDate) => {
         try {
             let events = await getAllEventsForSpecificDate(selectedDate);
-            console.log(events);
-    
-            // Always setOccupied, even if events is an empty array
-            let occupiedTimes:any = events.map(event => ({
+            let occupiedTimes = events.map(event => ({
                 startTime: event.startTime,
                 endTime: event.endTime
             }));
 
-
-            if(events.length == 0){
+            if (events.length === 0) {
                 occupiedTimes = [{
                     startTime: null,
-                endTime: null
+                    endTime: null
                 }]
             }
 
             setOccupied(occupiedTimes);
         } catch (error) {
             console.error("Error fetching events for date:", error);
-            // Ensure occupied is cleared in case of an error
             setOccupied([]);
         }
     };
 
-    if (props.currentUser.organisations.length == 0) {
+    if (currentUser.organisations.length === 0) {
         toast({
             title: "Create an Organisation",
             description: "Create an Organisation in order to set Events",
@@ -107,24 +102,13 @@ const EventForm = (props: Props) => {
     });
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        if (date == null || startTime == null || endTime == null) {
+        if (date === null || startTime === null || endTime === null) {
             toast({
                 title: "Missing Values",
                 description: "Please select a date, start and end time"
             });
         } else {
-            let formData = { ...data, date, startTime, endTime, organisation: props.currentUser.organisations[0] };
-
-            // toast({
-            //     title: "You submitted the following values:",
-            //     description: (
-            //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            //             <code className="text-white">
-            //                 {JSON.stringify(formData, null, 2)}
-            //             </code>
-            //         </pre>
-            //     ),
-            // });
+            let formData = { ...data, date, startTime, endTime, organisation: currentUser.organisations[0] };
 
             await createEvent(formData);
             router.push("/dashboard");
@@ -133,20 +117,30 @@ const EventForm = (props: Props) => {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="w-full max-w-xl p-8  shadow-md rounded-lg">
-                <h1 className="text-2xl font-bold mb-6 text-center">Create Event</h1>
+            <div className="w-full max-w-xl p-8 shadow-md rounded-lg">
+                <h1 className="text-2xl font-bold mb-6 text-center">
+                    <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        Create Event
+                    </motion.span>
+                </h1>
 
                 <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6"
-                    >
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <FormField
                             control={form.control}
                             name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Title <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel>
+                                        <span className="flex items-center">
+                                            <Calendar size={20} className="mr-2" />
+                                            Title <span className="text-red-500">*</span>
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Input placeholder="General Meeting" {...field} />
                                     </FormControl>
@@ -160,7 +154,12 @@ const EventForm = (props: Props) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>
+                                        <span className="flex items-center">
+                                            <AlertCircle size={20} className="mr-2" />
+                                            Description
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Input placeholder="Small Description of your event" {...field} />
                                     </FormControl>
@@ -174,7 +173,12 @@ const EventForm = (props: Props) => {
                             name="location"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Location</FormLabel>
+                                    <FormLabel>
+                                        <span className="flex items-center">
+                                            <MapPin size={20} className="mr-2" />
+                                            Location
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Input placeholder="e.g. Amphitheatre" {...field} />
                                     </FormControl>
@@ -184,14 +188,24 @@ const EventForm = (props: Props) => {
                         />
 
                         <div>
-                            <FormLabel>Date <span className="text-red-500">*</span></FormLabel>
-                            <div>
+                            <FormLabel >
+                                <span className="flex items-center">
+                                    <Calendar size={20} className="mr-2" />
+                                    Date <span className="text-red-500">*</span>
+                                </span>
+                            </FormLabel>
+                            <div className="mt-2">
                                 <DatePicker date={date} setDate={setDate} />
                             </div>
                         </div>
 
                         <div>
-                            <FormLabel>Start Time and End Time <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>
+                                <span className="flex items-center">
+                                    <Clock size={20} className="mr-2" />
+                                    Start Time and End Time <span className="text-red-500">*</span>
+                                </span>
+                            </FormLabel>
                             <TimePicker
                                 occupiedTimes={occupied}
                                 startTime={startTime}
@@ -202,7 +216,15 @@ const EventForm = (props: Props) => {
                             />
                         </div>
 
-                        <Button type="submit" className="w-full">Submit</Button>
+                        <Button type="submit" className="w-full">
+                            <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="flex items-center justify-center space-x-2"
+                            >
+                                <span>Submit</span>
+                            </motion.div>
+                        </Button>
                     </form>
                 </Form>
             </div>

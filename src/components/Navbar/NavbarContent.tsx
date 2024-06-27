@@ -52,24 +52,15 @@ const NavbarContent = (props: Props) => {
 							{isDrawerOpen ? <X /> : <Menu />}
 						</button>
 					</div>
-					<a
-						// href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						// target="_blank"
-						href="/"
-						rel="noopener noreferrer"
-						className="ml-4"
-					>
-						<span className="text-primary">U</span>
-						Events<sup>BETA</sup>
-						{/* <Image
-							src="/vercel.svg"
-							alt="Vercel Logo"
-							className="dark:invert"
-							width={100}
-							height={24}
-							priority
-						/> */}
-					</a>
+          <Link href="/" passHref>
+            <div className="ml-4 flex items-center space-x-1">
+              <span className="text-primary text-xl font-bold">U</span>
+              <span className="text-xl font-bold">Events</span>
+              <sup className="text-xs bg-primary text-white rounded-full px-2 py-1">
+                BETA
+              </sup>
+            </div>
+          </Link>
 				</div>
 				<div className="hidden lg:flex space-x-4 items-center">
 					{!currentUser && <Link href="/login">Login</Link>}

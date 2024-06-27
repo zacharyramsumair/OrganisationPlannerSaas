@@ -16,18 +16,16 @@ export const metadata: Metadata = {
 	description: "Effortlessly Craft a Calendar of Events with Our application",
 };
 
-export default  function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
-}>) 
-
-
-
-
-{
+}>) {
 	return (
 		<html lang="en">
+			<head>
+				<link rel="icon" href="/favicon.ico" />
+			</head>
 			<body className={inter.className}>
 				<Providers>
 					<NextSSRPlugin
@@ -41,8 +39,8 @@ export default  function RootLayout({
 					/>
 
 					<Navbar />
-					{children}
-					<Footer/>
+					<div className="min-h-screen">{children}</div>
+					<Footer />
 					<Toaster />
 				</Providers>
 			</body>

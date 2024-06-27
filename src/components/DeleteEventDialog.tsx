@@ -1,57 +1,73 @@
-import { useState } from 'react';
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { motion } from "framer-motion"; // Import motion from Framer Motion
+import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { deleteEvent } from "@/action/event"
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { deleteEvent } from "@/action/event";
 import { useRouter } from "next/navigation";
+import { Trash } from "lucide-react"; // Import Lucide icon for delete
 
-export function DeleteEventDialog(props:any) {
-  const router = useRouter();
-  const [isDeleting, setIsDeleting] = useState(false); // State variable to track deletion process
+export function DeleteEventDialog({ eventId }: { eventId: string }) {
+	const router = useRouter();
+	const [isDeleting, setIsDeleting] = useState(false);
 
-  const pressDeleteEventButton = async () => {
-    setIsDeleting(true); // Set the deletion state to true when button is clicked
-    await deleteEvent(props.eventId);
-    // router.push("/dashboard");
-    // Reload the page after deletion
-    window.location.reload(); 
-  }
+	const pressDeleteEventButton = async () => {
+		setIsDeleting(true);
+		await deleteEvent(eventId);
+		window.location.reload(); // Reload the page after deletion
+	};
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className={"mx-2"} variant="destructive">Delete</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Delete this Event</DialogTitle>
-        </DialogHeader>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            variant="destructive"
-            onClick={pressDeleteEventButton}
-            disabled={isDeleting} // Disable button while deletion is in progress
-          >
-            {isDeleting ? 'Deleting...' : 'Delete'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
+	return (
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button className="mx-2" variant="destructive">
+					<motion.div
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+						className="flex items-center space-x-1"
+					>
+						<Trash size={18} strokeWidth={2} />
+						<span>Delete</span>
+					</motion.div>
+				</Button>
+			</DialogTrigger>
+			<DialogContent className="sm:max-w-md">
+				<DialogHeader>
+					<DialogTitle>Delete this Event</DialogTitle>
+				</DialogHeader>
+				<DialogContent>
+					<p className="text-sm  mb-4">
+						Are you sure you want to delete this event? This action cannot
+						be undone.
+					</p>
+
+					<div className="">
+						<DialogClose asChild className="mx-1">
+							<Button type="button" variant="secondary">
+								Cancel
+							</Button>
+						</DialogClose>
+
+						<Button
+							type="button"
+							variant="destructive"
+							onClick={pressDeleteEventButton}
+							disabled={isDeleting}
+              className="mx-1"
+						>
+							{isDeleting ? "Deleting..." : "Confirm Delete"}
+						</Button>
+					</div>
+				</DialogContent>
+				<DialogFooter className="sm:justify-start"></DialogFooter>
+			</DialogContent>
+		</Dialog>
+	);
 }

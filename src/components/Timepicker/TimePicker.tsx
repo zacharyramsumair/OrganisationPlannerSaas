@@ -1,5 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, Clock, AlertCircle, Plus } from 'lucide-react'; // Lucide icons
 import { Button } from '../ui/button';
 
 const generateTimeIntervals = () => {
@@ -107,8 +109,7 @@ const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTim
         }
     });
     return slots;
-};
-
+  };
 
   const calculateDuration = () => {
     if (startTime && endTime) {
@@ -123,21 +124,33 @@ const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTim
   return (
     <div className="grid grid-cols-4 gap-2 p-2">
       {intervals.map((time) => (
-        <div
+        <motion.div
           key={time}
-          className={`flex items-center justify-center p-2 border cursor-pointer select-none
+          className={`flex items-center justify-center p-2 border cursor-pointer select-none rounded-md
             ${disabled ? 'cursor-not-allowed opacity-50' : ''}
             ${isMixed(time) ? 'bg-purple-300' : (time === startTime || time === endTime || isHighlighted(time)) ? 'bg-green-500' : isFaded(time) ? 'bg-green-300' : (customOccupiedSlots.includes(time)) ? 'bg-red-300' : '' }
             hover:bg-green-500`}
           onClick={() => handleTimeClick(time)}
           onMouseEnter={() => handleTimeMouseEnter(time)}
           onMouseLeave={handleTimeMouseLeave}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
         >
-          {time}
-        </div>
+          <span className="flex items-center space-x-1">
+            <Clock size={18} />
+            <span>{time}</span>
+            {customOccupiedSlots.includes(time) && <AlertCircle size={18} className="text-red-600" />}
+          </span>
+        </motion.div>
       ))}
 
-      {/* <Button onClick={submitInfo}>Submit</Button> */}
+      {/* <Button onClick={submitInfo} className="col-span-4">
+        <span className="flex items-center space-x-1">
+          <Plus size={18} />
+          <span>Submit</span>
+        </span>
+      </Button> */}
     </div>
   );
 };
