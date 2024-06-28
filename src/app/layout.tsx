@@ -12,7 +12,7 @@ import Footer from "@/components/Footer/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "UEvents",
+	title: "U Events",
 	description: "Effortlessly Craft a Calendar of Events with Our application",
 };
 

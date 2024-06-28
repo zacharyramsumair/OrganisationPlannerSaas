@@ -1,15 +1,16 @@
 import { getCurrentUser } from "@/action/user";
-import { ExampleForm } from "@/components/Examples/ExampleForm";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import HomePage from "@/components/HomePage/HomePage";
+import StarsCanvas from "@/components/StarBackground";
 
 
 export default async function Home() {
 	const currentUser = await getCurrentUser();
 
 	return (
+		<>
+		{/* <StarsCanvas/> */}
 		<HomePage currentUser={currentUser}/>
+		</>
 	)
 
 	// if (!currentUser) {

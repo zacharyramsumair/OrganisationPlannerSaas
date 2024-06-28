@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion"; // For animations
 import { Calendar, ChevronRight } from "lucide-react"; // Lucide React icons
+import StarsCanvas from "../StarBackground";
 
 function HomePage({ currentUser }: any) {
 
@@ -17,6 +18,8 @@ function HomePage({ currentUser }: any) {
       animate={{ opacity: 1 }}
       className="flex items-center justify-center min-h-screen flex-col"
     >
+
+      <StarsCanvas/>
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         <Link
           href="/calendar"
