@@ -30,3 +30,17 @@ chatgpt request to make pages/components prettier
 can you make any additions to make this page/component stand out more. Im thinking icons from lucide-react, animations, better design, a spash of colour. If u are doing animations please use frames motion
 
 can you make any additions to make this page/component stand out more. Im thinking icons from lucide-react, animations, better design, a spash of colour. If u are doing animations please use frames motion. Go wild with it, make it beautiful and use all the design things that you know. I give you full freedom. 
+
+
+
+
+How to prevent commits to main from deploying on vercel
+You can look this https://github.com/orgs/vercel/discussions/60#discussioncomment-114386
+
+go to Settings > Git > Ignored Build Step and enter
+
+git log -1 --pretty=oneline --abbrev-commit | grep -w "\[skip deploy\]" && exit 0 || exit 1
+
+And you can then skip the deployment by adding [skip deploy] to the git commit message.
+
+
