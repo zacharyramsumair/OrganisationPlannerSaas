@@ -89,7 +89,7 @@ function ShowCalendar({
   };
 
   return (
-    <div className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen md:min-h-min">
+    <div className="container mx-auto p-4 flex flex-col justify-start items-center min-h-screen md:min-h-min">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -158,7 +158,7 @@ function ShowCalendar({
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="w-full"
+              className=""
             >
               {selectedEvents.map((event: any, index: any) => (
                 <motion.div

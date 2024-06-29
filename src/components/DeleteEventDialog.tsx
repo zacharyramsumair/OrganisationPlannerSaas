@@ -27,7 +27,7 @@ export function DeleteEventDialog({ eventId }: { eventId: string }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button className="mx-2" variant="destructive">
+				<Button className="" variant="destructive">
 					<motion.div
 						whileHover={{ scale: 1.1 }}
 						whileTap={{ scale: 0.9 }}

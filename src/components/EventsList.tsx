@@ -63,7 +63,7 @@ const EventsList: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4 p-2  rounded-lg inline-block">
+        <h1 className="md:text-3xl text-lg font-bold mb-4 p-2  rounded-lg inline-block">
           <ChevronLeft onClick={handlePreviousMonth} className="cursor-pointer inline-block" /> 
           Events for {new Date(currentYear, currentMonth - 1).toLocaleString('default', { month: 'long', year: 'numeric' })} 
           <ChevronRight onClick={handleNextMonth} className="cursor-pointer inline-block" />

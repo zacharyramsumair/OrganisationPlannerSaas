@@ -33,31 +33,31 @@ export function EventListTable({ events }: any) {
               >
                 <TableCell className="text-left">
                   <div className="flex items-center space-x-2">
-                    <Star className="h-5 w-5 text-primary" />
-                    <span>{event.title}</span>
+                    <Star className="flex-shrink-0 h-5 w-5 text-primary" />
+                    <span className="whitespace-pre-wrap break-words">{event.title}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-left hidden sm:table-cell">
-                  <div className="flex items-center space-x-2">
-                    <User className="h-5 w-5 text-primary" />
+                  <div className="flex items-center ">
+                    <User className="flex-shrink-0 h-5 w-5 text-primary" />
                     <span>{event.host}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-left hidden md:table-cell">
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5 text-primary" />
+                  <div className="flex items-center ">
+                    <MapPin className="flex-shrink-0 h-5 w-5 text-primary" />
                     <span>{event.location || "TBA"}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-left">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-5 w-5 text-primary" />
+                  <div className="flex items-center ">
+                    <Calendar className="flex-shrink-0 h-5 w-5 text-primary hidden md:block" />
                     <span>{format(new Date(event.date), "EEEE do MMMM, yyyy")}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-left">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-5 w-5 text-primary" />
+                  <div className="flex items-center ">
+                    <Clock className="flex-shrink-0 h-5 w-5 text-primary hidden md:block" />
                     <span>{convert24HourTo12Hour(event.startTime)} - {convert24HourTo12Hour(event.endTime)}</span>
                   </div>
                 </TableCell>

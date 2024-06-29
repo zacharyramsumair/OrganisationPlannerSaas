@@ -52,15 +52,19 @@ const NavbarContent = (props: Props) => {
 							{isDrawerOpen ? <X /> : <Menu />}
 						</button>
 					</div>
-          <Link href="/" passHref>
-            <div className="ml-4 flex items-center space-x-1">
-              <span className="text-primary text-xl font-bold">U</span>
-              <span className="text-xl font-bold">Events</span>
-              <sup className="text-xs bg-primary text-white rounded-full px-2 py-1">
-                BETA
-              </sup>
-            </div>
-          </Link>
+					<Link href="/" passHref>
+						<div className="ml-4 flex items-center space-x-1">
+							<p>
+								<span className="text-primary text-xl font-bold">
+									U
+								</span>
+								<span className="text-xl font-bold">Events</span>
+							</p>
+							<sup className="text-xs bg-primary text-white rounded-full px-2 py-1">
+								BETA
+							</sup>
+						</div>
+					</Link>
 				</div>
 				<div className="hidden lg:flex space-x-4 items-center">
 					{!currentUser && <Link href="/login">Login</Link>}

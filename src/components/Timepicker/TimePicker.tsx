@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, AlertCircle, Plus } from 'lucide-react'; // Lucide icons
 import { Button } from '../ui/button';
+import convert24HourTo12Hour from "@/lib/convert24HourTo12Hour";
+
 
 const generateTimeIntervals = () => {
   const intervals = [];
@@ -138,9 +140,10 @@ const TimePicker = ({ occupiedTimes, startTime, endTime, setStartTime, setEndTim
           transition={{ duration: 0.2 }}
         >
           <span className="flex items-center space-x-1">
-            <Clock size={18} />
-            <span>{time}</span>
-            {customOccupiedSlots.includes(time) && <AlertCircle size={18} className="text-red-600" />}
+            <Clock size={18} className="hidden md:block" />
+            <span className="text-sm md:text-base">{convert24HourTo12Hour(time)}</span>
+            {/* <span>{time}</span> */}
+            {customOccupiedSlots.includes(time) && <AlertCircle size={18} className="text-red-600 hidden md:block" />}
           </span>
         </motion.div>
       ))}

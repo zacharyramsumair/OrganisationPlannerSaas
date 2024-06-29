@@ -12,7 +12,7 @@ export function EventCard({ className, event, ...props }: any) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className={cn("w-[380px] bg-white dark:bg-gray-800 shadow-lg rounded-lg", className)} {...props}>
+      <Card className={cn(" bg-white dark:bg-gray-800 shadow-lg rounded-lg", className)} {...props}>
         <CardHeader className="flex flex-col space-y-2">
           <CardTitle className="flex items-center space-x-2">
             <BellRing className="h-5 w-5 text-primary" />
