@@ -1,16 +1,23 @@
-import { getCurrentUser } from "@/action/user";
 import NavbarContent from "./NavbarContent";
-import { signOut } from "@/auth";
+import { signOut, auth } from "@/auth";
+import { fetchCurrentUser } from "@/app/api/user/getCurrentUser/route";
+// import { auth } from "@/auth"
 
 const Navbar = async () => {
-	let currentUser = await getCurrentUser();
+
+	const session = await auth()
+	let currentUser = false
+	if(session?.user?.email){
+		currentUser = await fetchCurrentUser(session?.user?.email)
+	}
+
+	
 
 	let signOutUser = async () => {
 		"use server";
 		await signOut();
 	};
 
-	// console.log("curent", currentUser);
 
 	return <NavbarContent currentUser={currentUser} signOutUser={signOutUser} />;
 };

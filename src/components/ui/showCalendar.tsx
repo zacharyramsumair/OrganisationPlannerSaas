@@ -5,9 +5,10 @@ import { DayPicker } from "react-day-picker";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { getAllEventsForTheYear } from "@/action/event";
 import { toast } from "@/components/ui/use-toast";
 import { EventCard } from "../EventCard";
+import { fetchGetAllEventsForTheYear } from "@/app/api/event/getAllEventsForTheYear/route";
+
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -25,7 +26,7 @@ function ShowCalendar({
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const events = await getAllEventsForTheYear(currentYear);
+        const events = await fetchGetAllEventsForTheYear(currentYear);
         const parsedEvents = events.map(event => ({
           ...event,
           date: new Date(event.date)

@@ -69,9 +69,9 @@ function InstagramIcon(props: any) {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
 			className="lucide lucide-instagram"
 		>
 			<rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -130,10 +130,10 @@ function FeedbackIcon(props: any) {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			class="lucide lucide-message-circle"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			className="lucide lucide-message-circle"
 		>
 			<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
 		</svg>

@@ -1,11 +1,19 @@
 import connectMongoDB from "@/lib/mongodb";
-import { getCurrentUser } from "@/action/user";
-import { getEventById } from "@/action/event";
+import { fetchGetEventById } from "@/app/api/event/getEventById/route";
+import {fetchCurrentUser} from "@/app/api/user/getCurrentUser/route"
+import { auth } from "@/auth"
+
+
 
 const fetchEventData = async (eventId: string) => {
   await connectMongoDB();
 
-  const currentUser = await getCurrentUser();
+  const session = await auth()
+	let currentUser = false
+	if(session?.user?.email){
+		currentUser = await fetchCurrentUser(session?.user?.email)
+	}
+
   if (!currentUser) {
     return { redirect: "/" };
   }
@@ -14,7 +22,7 @@ const fetchEventData = async (eventId: string) => {
     return { redirect: "/createOrganisation" };
   }
 
-  const currentEvent = await getEventById(eventId);
+  const currentEvent = await fetchGetEventById(eventId);
 
   // console.log(currentEvent)
   // console.log(currentEvent.organisation)

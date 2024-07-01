@@ -1,17 +1,21 @@
 import React from 'react'
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/action/user";
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import Dashboard from '@/components/Dashboard';
-import { getAllEventsForOrganisation } from '@/action/event';
-import { getOrganisationById } from '@/action/organisation';
+import { fetchOrganisationById } from '@/app/api/organisation/getOrganisationById/route';
+import { fetchCurrentUser } from "@/app/api/user/getCurrentUser/route";
+import { auth } from "@/auth"
 
 
 type Props = {}
 
 const dashboard = async (props: Props) => {
-  const currentUser = await getCurrentUser()
+  const session = await auth()
+	let currentUser:any = false
+	if(session?.user?.email){
+		currentUser = await fetchCurrentUser(session?.user?.email)
+	}
+
+
 	if (!currentUser) {
     redirect("/login")
 	}
@@ -20,7 +24,7 @@ const dashboard = async (props: Props) => {
     redirect("/createOrganisation")
 	}
 
-  let organisationInformation = await getOrganisationById(currentUser.organisations[0])
+  let organisationInformation = await fetchOrganisationById(currentUser.organisations[0])
 
   
   return (

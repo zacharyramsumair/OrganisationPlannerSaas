@@ -1,4 +1,5 @@
-import { getCurrentUser } from "@/action/user";
+import { fetchCurrentUser } from "@/app/api/user/getCurrentUser/route";
+import { auth } from "@/auth"
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
  
@@ -7,8 +8,12 @@ const f = createUploadthing();
 
 
  
-const auth = async (req: Request) => {
-    const user = await getCurrentUser();
+const authentication = async (req: Request) => {
+  const session = await auth()
+	let user = false
+	if(session?.user?.email){
+		user = await fetchCurrentUser(session?.user?.email)
+	}    
     return user
 
 } // Fake auth function
@@ -20,7 +25,7 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
-      const user = await auth(req);
+      const user = await authentication(req);
  
       // If you throw, the user will not be able to upload
       if (!user) throw new UploadThingError("Unauthorized");

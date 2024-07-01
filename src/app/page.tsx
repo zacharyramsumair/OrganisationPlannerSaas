@@ -1,17 +1,21 @@
-import { getCurrentUser } from "@/action/user";
 import HomePage from "@/components/HomePage/HomePage";
 import StarsCanvas from "@/components/StarBackground";
-
+import { fetchCurrentUser } from "@/app/api/user/getCurrentUser/route";
+import { auth } from "@/auth";
 
 export default async function Home() {
-	const currentUser = await getCurrentUser();
+	const session = await auth();
+	let currentUser = false;
+	if (session?.user?.email) {
+		currentUser = await fetchCurrentUser(session?.user?.email);
+	}
 
 	return (
 		<>
-		{/* <StarsCanvas/> */}
-		<HomePage currentUser={currentUser}/>
+			{/* <StarsCanvas/> */}
+			<HomePage currentUser={currentUser} />
 		</>
-	)
+	);
 
 	// if (!currentUser) {
 	// 	return (

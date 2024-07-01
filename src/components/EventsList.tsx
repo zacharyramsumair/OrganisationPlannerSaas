@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Importing Chevron icons
-import { getAllEventsForTheYear } from "@/action/event";
+import { fetchGetAllEventsForTheYear } from "@/app/api/event/getAllEventsForTheYear/route";
 import { toast } from "@/components/ui/use-toast";
 import { EventListTable } from "./EventListTable";
 
@@ -26,7 +26,7 @@ const EventsList: React.FC = () => {
 
   const fetchEventsForMonth = async (year: number, month: number) => {
     try {
-      const fetchedEvents = await getAllEventsForTheYear(year);
+      const fetchedEvents = await fetchGetAllEventsForTheYear(year);
       const filteredEvents = fetchedEvents.filter(event => new Date(event.date).getMonth() + 1 === month);
       setEvents(filteredEvents);
     } catch (error) {

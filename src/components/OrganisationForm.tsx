@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { createOrganisation, isOrganisationUsernameUnique } from "@/action/organisation";
+import { fetchCreateOrganisation } from "@/app/api/organisation/createOrganisation/route";
+import { fetchIsOrganisationUsernameUnique } from "@/app/api/organisation/isOrganisationUsernameUnique/route";
 
 type Props = {
   currentUser: any;
@@ -91,7 +92,7 @@ const OrganisationForm = ({ currentUser }: Props) => {
 
     data.username = data.username.toLowerCase();
 
-    let isUserNameUnique = await isOrganisationUsernameUnique(data.username);
+    let isUserNameUnique = await fetchIsOrganisationUsernameUnique(data.username);
 
     if (!isUserNameUnique) {
       toast({
@@ -103,7 +104,7 @@ const OrganisationForm = ({ currentUser }: Props) => {
 
     let formData = { ...data, organisationMainUser: currentUser._id };
 
-    await createOrganisation(formData);
+    await fetchCreateOrganisation(formData);
     router.push("/dashboard");
   }
 

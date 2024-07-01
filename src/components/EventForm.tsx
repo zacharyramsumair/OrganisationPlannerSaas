@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { createEvent, getAllEventsForSpecificDate } from "@/action/event";
+import { fetchCreateEvent } from "@/app/api/event/createEvent/route";
+import { fetchGetAllEventsForSpecificDate } from "@/app/api/event/getAllEventsForSpecificDate/route";
 
 type Props = {
     currentUser: any
@@ -64,7 +65,7 @@ const EventForm = ({ currentUser }: Props) => {
 
     const fetchOccupiedTimes = async (selectedDate) => {
         try {
-            let events = await getAllEventsForSpecificDate(selectedDate);
+            let events = await fetchGetAllEventsForSpecificDate(selectedDate);
             let occupiedTimes = events.map(event => ({
                 startTime: event.startTime,
                 endTime: event.endTime
@@ -110,8 +111,14 @@ const EventForm = ({ currentUser }: Props) => {
         } else {
             let formData = { ...data, date, startTime, endTime, organisation: currentUser.organisations[0] };
 
-            await createEvent(formData);
+            await fetchCreateEvent(formData);
             router.push("/dashboard");
+
+            toast({
+                title: "New Event Created",
+                description: "If you don't see it, refresh the page to see it on your dashboard"
+            });
+            // router.push("/dashboard");
         }
     }
 

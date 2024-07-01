@@ -10,6 +10,9 @@ import { User } from "./models/user";
 
 
 
+export const runtime =  'nodejs'
+
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [

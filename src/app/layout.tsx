@@ -11,6 +11,8 @@ import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const runtime =  'nodejs'
+
 export const metadata: Metadata = {
 	title: "UEvents",
 	description: "Effortlessly Craft a Calendar of Events with Our application",

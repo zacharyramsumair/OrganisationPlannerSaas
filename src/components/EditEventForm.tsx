@@ -19,7 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { editEvent, getAllEventsForSpecificDate } from "@/action/event";
+import { fetchGetAllEventsForSpecificDate } from "@/app/api/event/getAllEventsForSpecificDate/route";
+import { fetchUpdateEvent } from "@/app/api/event/updateEvent/route";
+
 
 const FormSchema = z.object({
     title: z
@@ -55,7 +57,7 @@ const EditEventForm = ({ currentUser, currentEvent }: any) => {
 
     const fetchOccupiedTimes = async (selectedDate: string) => {
         try {
-            const events = await getAllEventsForSpecificDate(selectedDate);
+            const events = await fetchGetAllEventsForSpecificDate(selectedDate);
             const filteredEvents = events.filter(event => event._id !== currentEvent._id);
             const occupiedTimes: any = filteredEvents.map((event: any) => ({
                 startTime: event.startTime,
@@ -101,7 +103,7 @@ const EditEventForm = ({ currentUser, currentEvent }: any) => {
             organisation: currentUser.organisations[0],
         };
 
-        await editEvent(currentEvent._id, formData);
+        await fetchUpdateEvent(currentEvent._id, formData, currentUser);
         router.push("/dashboard");
     };
 

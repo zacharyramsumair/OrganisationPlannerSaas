@@ -1,14 +1,21 @@
 import EventForm from '@/components/EventForm'
 import React from 'react'
-import { getCurrentUser } from "@/action/user";
 import { redirect } from "next/navigation";
+import { fetchCurrentUser } from "@/app/api/user/getCurrentUser/route";
+import { auth } from "@/auth"
 
 
 
 type Props = {}
 
 const page = async (props: Props) => {
-  const currentUser = await getCurrentUser()
+  const session = await auth()
+	let currentUser = false
+	if(session?.user?.email){
+		currentUser = await fetchCurrentUser(session?.user?.email)
+	}
+
+
 	if (!currentUser) {
     redirect("/")
 	}

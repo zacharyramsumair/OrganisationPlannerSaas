@@ -19,10 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import {
-  updateOrganisation,
-  isOrganisationUsernameUnique,
-} from "@/action/organisation";
+
+import { fetchIsOrganisationUsernameUnique } from "@/app/api/organisation/isOrganisationUsernameUnique/route";
+import { fetchUpdateOrganisation } from "@/app/api/organisation/updateOrganisation/route";
 
 type Props = {
   currentUser: any;
@@ -86,7 +85,7 @@ const EditOrganisationForm = ({ currentUser, organisationInformation }: Props) =
 
     data.username = data.username.toLowerCase();
 
-    let isUserNameUnique = await isOrganisationUsernameUnique(data.username);
+    let isUserNameUnique = await fetchIsOrganisationUsernameUnique(data.username);
 
     if (!isUserNameUnique && data.username !== organisationInformation.username) {
       toast({
@@ -98,7 +97,7 @@ const EditOrganisationForm = ({ currentUser, organisationInformation }: Props) =
 
     let formData = { ...data, organisationMainUser: currentUser._id };
 
-    await updateOrganisation(organisationInformation._id, formData);
+    await fetchUpdateOrganisation(organisationInformation._id, formData, currentUser);
     router.push("/dashboard");
   }
 
